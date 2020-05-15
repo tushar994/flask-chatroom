@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href={{ url_for('static', filename = 'css/sidebar.css') }}>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+    <script src={{ url_for('static', filename = 'js/send_message.js') }}></script>
+    <title>Document</title>
+</head>
+<body>
+    <div class="sidenav">
+        <ul id="room_list" class="room_list">
+            <!-- <div style = "background-color: azure; color: black;"> -->
+                <li>
+                    <a href={{ url_for("create_room") }} class = "normal" style="color: cornsilk;"> create a new room</a>
+                </li>
+            <!-- </div> -->
+            {% for room in rooms %}
+                {% if room==theroom %}
+                    <a href="#" class="special" id="special">{{room.name}}</a>
+                {% else %}    
+                    <a href={{ url_for("chat", chatroom = room.name) }} class="normal">{{room.name}}</a>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        <a href={{ url_for("index") }} class="normal" style="bottom: 10%; color: chartreuse;">logout</a>
+            
+    </div>
+
+    <div class="main">
+        <ul class = "text_chat" id = "text_chat">
+            {% for message in messages %}
+                <li>{{message.user}} :- {{message.message}}</li>
+
+            {% endfor %}
+        </ul>
+    </div>
+    {% if theroom != None %}
+        <div class="textbox">
+            <input type="text" name="message_text" id="message_text">
+            <button type = "submit">send</button>
+        </div>
+    {%endif%}
+
+</body>
+</html>
